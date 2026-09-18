@@ -27,7 +27,23 @@ function draw() {
     ellipse(x, y, 4, 4);
     i += 0.05;
   } else {
-    // Cuando el corazón termina de dibujarse, se escribe el texto
+    // 1. Limpiamos el fondo en cada cuadro para que no se encima el texto
+    background(0);
+
+    // 2. Volvemos a redibujar el corazón completo de fondo
+    stroke("#ff3366");
+    strokeWeight(3);
+    fill(255, 51, 102, 50);
+    beginShape();
+    let r = min(width, height) / 40;
+    for (let a = 0; a < TWO_PI; a += 0.05) {
+      let x = r * 16 * pow(sin(a), 3);
+      let y = -r * (13 * cos(a) - 5 * cos(2 * a) - 2 * cos(3 * a) - cos(4 * a));
+      vertex(x, y);
+    }
+    endShape(CLOSE);
+
+    // 3. Escribimos el mensaje de forma limpia
     fill(255);
     noStroke();
     textAlign(CENTER, CENTER);
@@ -41,13 +57,4 @@ function draw() {
     }
 
     text(textoActual, 0, 0);
-  }
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  background(0);
-  i = 0;
-  textoActual = "";
-  indiceTexto = 0;
 }
